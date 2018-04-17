@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Grid, Tag, Select } from '@icedesign/base';
 import DataBinder from '@icedesign/data-binder';
 import Cesium from 'cesium/Cesium';
-import { loadProjectEntitesByType } from '../../../../services/entity.service';
+import { loadProjectEntitesByType, getProjectEntity } from '../../../../services/entity.service';
 import './Map.scss';
 import * as CONSTS from '../../../../consts';
 
@@ -64,6 +64,8 @@ export default class Map extends Component {
                 this.setState({
                     selectedProject: this.props.bindingData.projectList.projects[0].id
                 });
+
+                this.showProjectEntity(this.props.bindingData.projectList.projects[0]);
             }
         );
 
@@ -102,6 +104,13 @@ export default class Map extends Component {
 
     showEntities(entities) {
 
+    }
+
+    showProjectEntity(project) {
+        const projectEntity = getProjectEntity(project);
+        this.viewer.add(projectEntity);
+
+        this.viewer.flyTo(projectEntity);
     }
 
     async selectHandler0(selected) {
@@ -188,6 +197,8 @@ export default class Map extends Component {
         this.setState({
             selectedProject: value
         });
+
+        // TODO : fly to current project entity
 
         // refresh entities
         const entities = await loadProjectEntitesByType(
