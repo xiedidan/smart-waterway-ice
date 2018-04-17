@@ -6,14 +6,17 @@ export async function loadProjectEntitesByType(project, types) {
 }
 
 export async function getProjectEntity(project) {
+    const position = await geojson2Cartesian3(project.geo);
+
     const entity = {
+        id: project._id.toString(),
         name: project.name,
         polygon: {
-            hierarchy: geojson2Cartesian3(project.geo),
+            hierarchy: position,
             height: 0,
-            material: Color.RED.withAlpha(0.5),
+            material: Color.WHITE.withAlpha(0.2),
             outline: true,
-            outlineColor: Color.BLACK,
+            outlineColor: Color.BLACK.withAlpha(0.5),
         },
         description: project.desc,
     };

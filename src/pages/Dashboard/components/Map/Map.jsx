@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import axios from 'axios';
 import React, { Component } from 'react';
 import { Grid, Tag, Select } from '@icedesign/base';
 import DataBinder from '@icedesign/data-binder';
@@ -48,6 +49,8 @@ export default class Map extends Component {
         super(props);
         this.state = {
             selectedProject: '',
+            showProjectEntity: true,
+            projectEntity: null,
             selectedTypes: [0, 1, 2, 3, 4],
         };
     }
@@ -106,11 +109,60 @@ export default class Map extends Component {
 
     }
 
-    showProjectEntity(project) {
-        const projectEntity = getProjectEntity(project);
-        this.viewer.entities.add(projectEntity);
+    async showProjectEntity() {
+        if (
+            this.state.selectedProject === undefined ||
+            this.state.selectedProject == null ||
+            this.state.showProjectEntity === false
+        ) {
+            return;
+        }
 
-        this.viewer.flyTo(projectEntity);
+        if (
+            this.state.projectEntity === undefined ||
+            this.state.projectEntity == null ||
+            this.state.projectEntity.id.toString() !== this.state.selectedProject.toString()
+        ) {
+            const projectResp = await axios.get(
+                `${CONSTS.BACKEND_BASE_URL}/api/${CONSTS.API_VERSION}/projects/${this.state.selectedProject}`,
+                {
+                    withCredentials: true, 
+                },
+            );
+    
+            if (projectResp.status === 200) {
+                if (
+                    this.state.projectEntity !== undefined &&
+                    this.state.projectEntity != null
+                ) {
+                    this.viewer.entities.remove(this.state.projectEntity);
+                }
+
+                const project = projectResp.data;
+    
+                const projectEntity = await getProjectEntity(project);
+                this.setState({
+                    projectEntity: this.viewer.entities.add(projectEntity),
+                }, () => {
+                    this.viewer.flyTo(this.state.projectEntity);
+                });
+            }
+        } else {
+            this.viewer.flyTo(this.state.projectEntity);
+        }
+    }
+
+    async hideProjectEntity() {
+        if (
+            this.state.projectEntity !== undefined &&
+            this.state.projectEntity != null
+        ) {
+            this.viewer.entities.remove(this.state.projectEntity);
+            
+            this.setState({
+                projectEntity: null
+            });
+        }
     }
 
     async selectHandler0(selected) {
@@ -196,16 +248,33 @@ export default class Map extends Component {
     async projectSelectHandler(value) {
         this.setState({
             selectedProject: value
+        }, async () => {
+            // fly to current project entity
+            this.showProjectEntity();
+
+            // refresh entities
+            const entities = await loadProjectEntitesByType(
+                this.state.selectedProject,
+                this.state.selectedTypes,
+            );
+            this.showEntities(entities);
         });
+    }
 
-        // TODO : fly to current project entity
-
-        // refresh entities
-        const entities = await loadProjectEntitesByType(
-            this.state.selectedProject,
-            this.state.selectedTypes,
-        );
-        this.showEntities(entities);
+    async projectSwitchHandler(selected) {
+        if (selected) {
+            this.setState({
+                showProjectEntity: true,
+            }, () => {
+                this.showProjectEntity();
+            });
+        } else {
+            this.setState({
+                showProjectEntity: false,
+            }, () => {
+                this.hideProjectEntity();
+            });
+        }
     }
 
     render() {
@@ -256,6 +325,14 @@ export default class Map extends Component {
                                 defaultSelected={true}
                             >
                                 文档
+                            </Tag>
+                            <Tag
+                                shape="selectable"
+                                type="normal"
+                                onSelect={::this.projectSwitchHandler}
+                                defaultSelected={true}
+                            >
+                                工程
                             </Tag>
                         </Col>
                         <Col offset={10} span={4}>
