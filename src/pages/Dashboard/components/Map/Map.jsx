@@ -108,7 +108,7 @@ export default class Map extends Component {
 
     showProjectEntity(project) {
         const projectEntity = getProjectEntity(project);
-        this.viewer.add(projectEntity);
+        this.viewer.entities.add(projectEntity);
 
         this.viewer.flyTo(projectEntity);
     }

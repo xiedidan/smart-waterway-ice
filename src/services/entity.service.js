@@ -9,7 +9,7 @@ export async function getProjectEntity(project) {
     const entity = {
         name: project.name,
         polygon: {
-            hierarchy: geojson2Cartesian3(project.geometry),
+            hierarchy: geojson2Cartesian3(project.geo),
             height: 0,
             material: Color.RED.withAlpha(0.5),
             outline: true,
