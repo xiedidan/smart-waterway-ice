@@ -1,12 +1,46 @@
 import _ from 'lodash';
+import axios from 'axios';
+import Cesium from 'cesium/Cesium';
 import { Cartesian3, Color } from 'cesium/Cesium';
+import * as CONSTS from '../consts';
 
 export async function loadProjectEntitesByType(project, types) {
+    // load entity and status
+    try {
+        const entityResp = await axios.get(
+            `${CONSTS.BACKEND_BASE_URL}/api/${CONSTS.API_VERSION}/entities/load`,
+            {
+                params: {
+                    project,
+                    type: types,
+                },
+                withCredentials: true,
+            }
+        );
 
+        if (entityResp.status === 200) {
+            const entities = entityResp.data;
+
+            // convert to cesium entity
+            return entities.map(record2Entity);
+        }
+
+        console.log(
+            'loadProjectEntitesByType',
+            entityResp.status,
+            entityResp.data
+        );
+
+        return null;
+    } catch (err) {
+        console.log(err.stack);
+
+        return null;
+    }
 }
 
 export async function getProjectEntity(project) {
-    const position = await geojson2Cartesian3(project.geo);
+    const position = geojson2Cartesian3(project.geo);
 
     const entity = {
         id: project._id.toString(),
@@ -24,7 +58,52 @@ export async function getProjectEntity(project) {
     return entity;
 }
 
-export async function geojson2Cartesian3(geojson) {
+export function record2Entity(record) {
+    const position = geojson2Cartesian3(record.entity.location);
+    const body = getBillboardBody(record);
+
+    const entity = {
+        id: record.entity._id.toString(),
+        name: record.entity.name,
+        position,
+        ...body,
+        description: record.entity.desc,
+    };
+
+    return entity;
+}
+
+export function getBillboardBody(record) {
+    const label = {
+        font : '14pt monospace',
+        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        outlineWidth : 2,
+        verticalOrigin : Cesium.VerticalOrigin.TOP,
+        pixelOffset : new Cesium.Cartesian2(0, 32),
+    };
+
+    const billboard = {
+        width: CONSTS.BILLBOARD_WIDTH,
+        height: CONSTS.BILLBOARD_HEIGHT,
+    };
+
+    switch (record.entity.type) {
+        case CONSTS.ENTITY_TYPES.WEATHER:
+        label.text = `${record.data.temp}度 / ${record.data.humi}%`;
+        billboard.image = CONSTS.BILLBOARD_ICONS.WEATHER;
+        break;
+
+        default:
+        break;
+    }
+
+    return {
+        billboard,
+        label,
+    };
+}
+
+export function geojson2Cartesian3(geojson) {
     let cartesian = {};
 
     switch (geojson.type) {

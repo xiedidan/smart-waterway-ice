@@ -106,7 +106,13 @@ export default class Map extends Component {
     }
 
     showEntities(entities) {
-
+        entities.map((entity) => {
+            const viewerEntity = this.viewer.entities.getOrCreateEntity(entity.id);
+            
+            viewerEntity.name = entity.name;
+            viewerEntity.polygon = entity.polygon;
+            viewerEntity.description = entity.description;
+        });
     }
 
     async showProjectEntity() {
