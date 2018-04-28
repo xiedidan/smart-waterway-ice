@@ -1,13 +1,13 @@
 export const BACKEND_BASE_URL = 'http://piecent.com:5050';
-export const PUBLIC_BASE_URL = 'http://192.168.5.39';
+export const PUBLIC_BASE_URL = 'http://piecent.com:8000';
 export const API_VERSION = 'v1.0';
 export const BING_MAPS_KEY = 'ApI-oj--b2GLuTrhgfWkF9AioGopwJO9iq5lB-VEmc9okO9b0tjkOZX0a79YBHuv';
 export const ENTITY_REFRESH_INTERVAL = 1000;
 
-export const BILLBOARD_WIDTH = 64;
-export const BILLBOARD_HEIGHT = 64;
+export const BILLBOARD_WIDTH = 48;
+export const BILLBOARD_HEIGHT = 48;
 export const BILLBOARD_ICONS = {
-    WEATHER: `${PUBLIC_BASE_URL}/images/icons/weather.png`,
+    WEATHER: `${PUBLIC_BASE_URL}/images/icons/weather`,
 };
 
 export const ENTITY_TYPES = {
@@ -18,3 +18,19 @@ export const ENTITY_TYPES = {
     SHIP: 4,
     DOCUMENT: 5
 };
+
+export const WEATHER = {
+    SUNNY: 0,
+    CLOUDY: 1,
+    OVERCAST: 2,
+    MIST: 3,
+    FOG: 4,
+    RAIN: 5,
+    SHOWER: 6,
+    STORM: 7,
+    SNOW: 8,
+    SLEET: 9,
+    HAIL: 10,
+};
+
+export const WEATHER_ICON_SET = 1;

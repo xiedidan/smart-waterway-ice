@@ -80,11 +80,11 @@ export function record2Entity(record) {
 
 export function getBillboardBody(record) {
     const label = {
-        font : '14pt monospace',
+        font : '10pt monospace',
         style: Cesium.LabelStyle.FILL_AND_OUTLINE,
         outlineWidth : 2,
         verticalOrigin : Cesium.VerticalOrigin.TOP,
-        pixelOffset : new Cesium.Cartesian2(0, 32),
+        pixelOffset : new Cesium.Cartesian2(0, CONSTS.BILLBOARD_WIDTH / 2),
     };
 
     const billboard = {
@@ -94,8 +94,8 @@ export function getBillboardBody(record) {
 
     switch (record.entity.type) {
         case CONSTS.ENTITY_TYPES.WEATHER:
-        label.text = `${record.data.temp}度 / ${record.data.humi}%`;
-        billboard.image = CONSTS.BILLBOARD_ICONS.WEATHER;
+        label.text = `${record.data.temperature}度/${record.data.humidity}%`;
+        billboard.image = getWeatherIcon1(record);
         break;
 
         default:
@@ -137,4 +137,81 @@ export function geojson2Cartesian3(geojson) {
     }
 
     return cartesian;
+}
+
+export function getWeatherIcon1(record) {
+    const data = record.data;
+    const ts = new Date(record.createdAt);
+    const hours = ts.getHours();
+    const nightFlag = (hours > 7 && hours < 19) ? false : true;
+
+    let weather = '';
+    let level = '';
+    let night = '';
+
+    switch (data.weather) {
+        case CONSTS.WEATHER.SUNNY:
+        weather = 'sunny';
+        night = nightFlag ? '_night' : '';
+        break;
+
+        case CONSTS.WEATHER.CLOUDY:
+        weather = 'cloudy';
+        level = data.level;
+        night = nightFlag ? '_night' : '';
+        break;
+
+        case CONSTS.WEATHER.OVERCAST:
+        weather = 'overcast';
+        break;
+
+        case CONSTS.WEATHER.MIST:
+        weather = 'mist';
+        night = nightFlag ? '_night' : '';
+        break;
+
+        case CONSTS.WEATHER.FOG:
+        weather = 'fog';
+        night = nightFlag ? '_night' : '';
+        break;
+
+        case CONSTS.WEATHER.RAIN:
+        weather = 'light_rain';
+        break;
+
+        case CONSTS.WEATHER.SHOWER:
+        weather = 'shower';
+        level = data.level;
+        night = nightFlag ? '_night' : '';
+        break;
+
+        case CONSTS.WEATHER.STORM:
+        weather = 'tstorm';
+        level = data.level;
+        if (data.level < 3) {
+            night = nightFlag ? '_night' : '';
+        }
+        break;
+
+        case CONSTS.WEATHER.SNOW:
+        weather = 'snow';
+        level = data.level;
+        if (data.level < 4) {
+            night = nightFlag ? '_night' : '';
+        }
+        break;
+
+        case CONSTS.WEATHER.SLEET:
+        weather = 'sleet';
+        break;
+
+        case CONSTS.WEATHER.HAIL:
+        weather = 'hail';
+        break;
+
+        default:
+        weather = 'sunny';
+    }
+
+    return `${CONSTS.BILLBOARD_ICONS.WEATHER}/set_${CONSTS.WEATHER_ICON_SET}/${weather}${level}${night}.png`;
 }
