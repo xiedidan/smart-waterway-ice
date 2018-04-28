@@ -76,6 +76,9 @@ module.exports = {
     },
     */
     plugins: [
+        // Copy images
+        new CopywebpackPlugin([ { from: 'public/images', to: 'images' } ]),
+
         // Copy Cesium Assets, Widgets, and Workers to a static directory
         new CopywebpackPlugin([ { from: path.join(cesiumSource, cesiumWorkers), to: 'Workers' } ]),
         new CopywebpackPlugin([ { from: path.join(cesiumSource, 'Assets'), to: 'Assets' } ]),

@@ -94,9 +94,17 @@ export default class Map extends Component {
         this.entityInterval = setInterval(async () => {
             const entities = await loadProjectEntitesByType(
                 this.state.selectedProject,
-                this.state.selectedTypes,
+                this.state.selectedTypes.map((type) => {
+                    return type + 1;
+                }),
             );
-            this.showEntities(entities);
+
+            if (
+                entities !== undefined &&
+                entities != null
+            ) {
+                this.showEntities(entities);
+            }
         }, CONSTS.ENTITY_REFRESH_INTERVAL);
     }
 
@@ -106,12 +114,39 @@ export default class Map extends Component {
     }
 
     showEntities(entities) {
+        // refresh or create entity
         entities.map((entity) => {
             const viewerEntity = this.viewer.entities.getOrCreateEntity(entity.id);
             
             viewerEntity.name = entity.name;
-            viewerEntity.polygon = entity.polygon;
+            viewerEntity.position = entity.position;
+            viewerEntity.label = entity.label;
+            viewerEntity.billboard = entity.billboard;
             viewerEntity.description = entity.description;
+        });
+
+        // remove useless entity
+        console.log('this.viewer.entities.values', this.viewer.entities.values)
+        const unusedEntities = this.viewer.entities.values.filter((existedEntity) => {
+            if (existedEntity.id === this.state.selectedProject) {
+                return false;
+            }
+            
+            const unused = entities.reduce((prev, curr) => {
+                if (curr.id === existedEntity.id) {
+                    return false;
+                } else {
+                    return prev;
+                }
+            }, true);
+
+            return unused;
+        });
+
+        console.log('unusedEntities', unusedEntities)
+
+        unusedEntities.map((unusedEntity) => {
+            return this.viewer.entities.remove(unusedEntity);
         });
     }
 
@@ -178,13 +213,6 @@ export default class Map extends Component {
         } else {
              _.pull(this.state.selectedTypes, 0);
         }
-
-        // refresh entities
-        const entities = await loadProjectEntitesByType(
-            this.state.selectedProject,
-            this.state.selectedTypes,
-        );
-        this.showEntities(entities);
     }
 
     async selectHandler1(selected) {
@@ -194,13 +222,6 @@ export default class Map extends Component {
         } else {
              _.pull(this.state.selectedTypes, 1);
         }
-
-        // refresh entities
-        const entities = await loadProjectEntitesByType(
-            this.state.selectedProject,
-            this.state.selectedTypes,
-        );
-        this.showEntities(entities);
     }
 
     async selectHandler2(selected) {
@@ -210,13 +231,6 @@ export default class Map extends Component {
         } else {
              _.pull(this.state.selectedTypes, 2);
         }
-
-        // refresh entities
-        const entities = await loadProjectEntitesByType(
-            this.state.selectedProject,
-            this.state.selectedTypes,
-        );
-        this.showEntities(entities);
     }
 
     async selectHandler3(selected) {
@@ -226,13 +240,6 @@ export default class Map extends Component {
         } else {
              _.pull(this.state.selectedTypes, 3);
         }
-
-        // refresh entities
-        const entities = await loadProjectEntitesByType(
-            this.state.selectedProject,
-            this.state.selectedTypes,
-        );
-        this.showEntities(entities);
     }
 
     async selectHandler4(selected) {
@@ -242,13 +249,6 @@ export default class Map extends Component {
         } else {
              _.pull(this.state.selectedTypes, 4);
         }
-
-        // refresh entities
-        const entities = await loadProjectEntitesByType(
-            this.state.selectedProject,
-            this.state.selectedTypes,
-        );
-        this.showEntities(entities);
     }
 
     async projectSelectHandler(value) {
@@ -257,13 +257,6 @@ export default class Map extends Component {
         }, async () => {
             // fly to current project entity
             this.showProjectEntity();
-
-            // refresh entities
-            const entities = await loadProjectEntitesByType(
-                this.state.selectedProject,
-                this.state.selectedTypes,
-            );
-            this.showEntities(entities);
         });
     }
 

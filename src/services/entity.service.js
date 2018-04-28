@@ -21,8 +21,13 @@ export async function loadProjectEntitesByType(project, types) {
         if (entityResp.status === 200) {
             const entities = entityResp.data;
 
-            // convert to cesium entity
-            return entities.map(record2Entity);
+            if (
+                entities !== undefined &&
+                entities != null
+            ) {
+                // convert to cesium entity
+                return entities.map(record2Entity);
+            }
         }
 
         console.log(
