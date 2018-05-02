@@ -351,7 +351,7 @@ export default class Map extends Component {
                         </Col>
                     </Row>
                 </div>
-                <div id="cesiumContainer" style={{height: '100%'}} />
+                <div id="cesiumContainer" />
             </div>
         );
     }

@@ -30,12 +30,6 @@ export async function loadProjectEntitesByType(project, types) {
             }
         }
 
-        console.log(
-            'loadProjectEntitesByType',
-            entityResp.status,
-            entityResp.data
-        );
-
         return null;
     } catch (err) {
         console.log(err.stack);
@@ -80,7 +74,7 @@ export function record2Entity(record) {
 
 export function getBillboardBody(record) {
     const label = {
-        font : '10pt monospace',
+        font : '14pt monospace',
         style: Cesium.LabelStyle.FILL_AND_OUTLINE,
         outlineWidth : 2,
         verticalOrigin : Cesium.VerticalOrigin.TOP,
@@ -93,9 +87,27 @@ export function getBillboardBody(record) {
     };
 
     switch (record.entity.type) {
+        case CONSTS.ENTITY_TYPES.MARKER:
+        label.text = `${record.data.error === false ? '正常' : '异常'}/${record.data.shift === true ? '偏移' : '原位'}`;
+        billboard.image = CONSTS.BILLBOARD_ICONS.MARKER;
+        break;
+
+        case CONSTS.ENTITY_TYPES.HYDROLOGY:
+        label.text = `${record.data.level}米\n${record.data.rate}立方米/秒`;
+        billboard.image = CONSTS.BILLBOARD_ICONS.HYDROLOGY;
+        break;
+
         case CONSTS.ENTITY_TYPES.WEATHER:
         label.text = `${record.data.temperature}度/${record.data.humidity}%`;
         billboard.image = getWeatherIcon1(record);
+        break;
+
+        case CONSTS.ENTITY_TYPES.SHIP:
+        label.text = `${record.data.speed}米/秒`;
+        billboard.image = CONSTS.BILLBOARD_ICONS.SHIP;
+        break;
+
+        case CONSTS.ENTITY_TYPES.DOCUMENT:
         break;
 
         default:
