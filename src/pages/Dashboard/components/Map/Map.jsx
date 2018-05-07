@@ -72,7 +72,9 @@ export default class Map extends Component {
             }
         );
 
+        Cesium.Ion.defaultAccessToken = CONSTS.ION_TOKEN;
         Cesium.BingMapsApi.defaultKey = CONSTS.BING_MAPS_KEY;
+        Cesium.MapboxApi.defaultAccessToken = CONSTS.MAPBOX_TOKEN;
         
         this.viewer = new Cesium.Viewer('cesiumContainer', {
             timeline: false,

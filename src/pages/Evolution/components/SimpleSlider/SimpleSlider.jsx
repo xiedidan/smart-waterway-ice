@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { observer } from 'mobx-react';
 import IceContainer from '@icedesign/container';
 import { Slider } from '@icedesign/base';
 
@@ -21,7 +22,8 @@ const slides = [
   },
 ];
 
-export default class SimpleSlider extends Component {
+@observer
+class SimpleSlider extends Component {
   static displayName = 'SimpleSlider';
 
   static propTypes = {};
@@ -30,13 +32,21 @@ export default class SimpleSlider extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+    };
   }
 
   render() {
+    const settings = {
+      arrows: false,
+      dots: false,
+      fade: true,
+    };
+
+    // we must directly use mobx observable in component
     return (
       <IceContainer>
-        <Slider>
+        <Slider {...settings} slickGoTo={this.props.store.currentPosition}>
           {slides.map((item, index) => (
             <div key={index}>
               <img src={item.url} alt={item.text} style={styles.itemImg} />
@@ -53,3 +63,5 @@ const styles = {
     width: '100%',
   },
 };
+
+export default SimpleSlider;

@@ -28,14 +28,14 @@ const customHeaderNavs = [
 
 const customAsideNavs = [
   {
-    text: 'Dashboard',
+    text: '电子航道',
     to: '/dashboard',
     icon: 'home',
   },
   {
-    text: 'Evolution',
+    text: '河床演变',
     to: '/evolution',
-    icon: 'nav-list',
+    icon: 'clock',
   },
   {
     text: '工程管理',

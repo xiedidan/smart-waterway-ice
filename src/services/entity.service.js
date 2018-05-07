@@ -93,17 +93,17 @@ export function getBillboardBody(record) {
         break;
 
         case CONSTS.ENTITY_TYPES.HYDROLOGY:
-        label.text = `${record.data.level}米\n${record.data.rate}立方米/秒`;
+        label.text = `${record.data.level}米\n${record.data.rate.toFixed(CONSTS.LABEL_FLOAT_DIGIT_COUNT)}立方米/秒`;
         billboard.image = CONSTS.BILLBOARD_ICONS.HYDROLOGY;
         break;
 
         case CONSTS.ENTITY_TYPES.WEATHER:
-        label.text = `${record.data.temperature}度/${record.data.humidity}%`;
+        label.text = `${record.data.temperature.toFixed(CONSTS.LABEL_FLOAT_DIGIT_COUNT)}度/${record.data.humidity.toFixed(CONSTS.LABEL_FLOAT_DIGIT_COUNT)}%`;
         billboard.image = getWeatherIcon1(record);
         break;
 
         case CONSTS.ENTITY_TYPES.SHIP:
-        label.text = `${record.data.speed}米/秒`;
+        label.text = `${record.data.speed.toFixed(CONSTS.LABEL_FLOAT_DIGIT_COUNT)}米/秒`;
         billboard.image = CONSTS.BILLBOARD_ICONS.SHIP;
         break;
 

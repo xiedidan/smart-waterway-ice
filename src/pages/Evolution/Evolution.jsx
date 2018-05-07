@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
+import { observer } from 'mobx-react';
 import SimpleSlider from './components/SimpleSlider';
-import SimpleTimeline from './components/SimpleTimeline';
+import LiteTable from './components/LiteTable';
+import evolutionStore from '../../stores/EvolutionStore';
 
-export default class Evolution extends Component {
+@observer
+class Evolution extends Component {
   static displayName = 'Evolution';
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+    };
   }
 
   render() {
     return (
       <div className="evolution-page">
-        <SimpleSlider />
-        <SimpleTimeline />
+        <SimpleSlider store={evolutionStore} />
+        <LiteTable store={evolutionStore} />
       </div>
     );
   }
 }
+
+export default Evolution;
