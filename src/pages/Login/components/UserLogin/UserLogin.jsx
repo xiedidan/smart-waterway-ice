@@ -16,8 +16,7 @@ const { Row, Col } = Grid;
 const Toast = Feedback.toast;
 
 // 寻找背景图片可以从 https://unsplash.com/ 寻找
-const backgroundImage =
-  'https://img.alicdn.com/tfs/TB1zsNhXTtYBeNjy1XdXXXXyVXa-2252-1500.png';
+const backgroundImage = `${CONSTS.PUBLIC_BASE_URL}/images/background.jpg`;
 
 export default class UserLogin extends Component {
   static displayName = 'UserLogin';
