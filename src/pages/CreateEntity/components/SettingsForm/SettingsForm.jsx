@@ -211,6 +211,7 @@ export default class SettingsForm extends Component {
                       <Option value="3" key="3">气象</Option>
                       <Option value="4" key="4">船舶</Option>
                       <Option value="5" key="5">文档</Option>
+                      <Option value="6" key="6">信息</Option>
                     </Select>
                   </IceFormBinder>
                   <IceFormError name="type" />

@@ -110,6 +110,11 @@ export function getBillboardBody(record) {
         case CONSTS.ENTITY_TYPES.DOCUMENT:
         break;
 
+        case CONSTS.ENTITY_TYPES.INFO:
+        label.text = record.entity.name;
+        billboard.image = CONSTS.BILLBOARD_ICONS.INFO;
+        break;
+
         default:
         break;
     }

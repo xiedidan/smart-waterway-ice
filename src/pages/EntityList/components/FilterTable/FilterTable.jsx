@@ -180,6 +180,10 @@ export default class EnhanceTable extends Component {
         type = '文档';
         break;
 
+      case 6:
+        type = '信息';
+        break;
+
       default:
         type = '未知';
         break;

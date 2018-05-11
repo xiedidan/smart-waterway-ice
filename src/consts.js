@@ -16,6 +16,7 @@ export const BILLBOARD_ICONS = {
     WEATHER: `${PUBLIC_BASE_URL}/images/icons/weather`,
     SHIP: `${PUBLIC_BASE_URL}/images/icons/ship.png`,
     DOCUMENT: `${PUBLIC_BASE_URL}/images/icons/document`,
+    INFO: `${PUBLIC_BASE_URL}/images/icons/position/3.png`,
 };
 
 export const ENTITY_TYPES = {
@@ -24,7 +25,8 @@ export const ENTITY_TYPES = {
     HYDROLOGY: 2,
     WEATHER: 3,
     SHIP: 4,
-    DOCUMENT: 5
+    DOCUMENT: 5,
+    INFO: 6,
 };
 
 export const WEATHER = {
