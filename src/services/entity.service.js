@@ -232,3 +232,50 @@ export function getWeatherIcon1(record) {
 
     return `${CONSTS.BILLBOARD_ICONS.WEATHER}/set_${CONSTS.WEATHER_ICON_SET}/${weather}${level}${night}.png`;
 }
+
+export function getWaterlineEntities() {
+    const waterlineArray1 = CONSTS.WATERLINE_1.coordinates.reduce((prev, curr) => {
+        prev.push(curr[0]);
+        prev.push(curr[1]);
+
+        return prev;
+    }, []);
+
+    const waterlineArray2 = CONSTS.WATERLINE_2.coordinates.reduce((prev, curr) => {
+        prev.push(curr[0]);
+        prev.push(curr[1]);
+
+        return prev;
+    }, []);
+
+    const waterlineEntity1 = {
+        id: 'waterline_1',
+        polyline: {
+            positions: Cesium.Cartesian3.fromDegreesArray(waterlineArray1),
+            width: 5,
+            material: new Cesium.PolylineOutlineMaterialProperty({
+                color: Cesium.Color.RED,
+                outlineWidth: 1,
+                outlineColor: Cesium.Color.BLACK,
+            }),
+        }
+    };
+
+    const waterlineEntity2 = {
+        id: 'waterline_2',
+        polyline: {
+            positions: Cesium.Cartesian3.fromDegreesArray(waterlineArray2),
+            width: 5,
+            material: new Cesium.PolylineOutlineMaterialProperty({
+                color: Cesium.Color.RED,
+                outlineWidth: 1,
+                outlineColor: Cesium.Color.BLACK,
+            }),
+        }
+    };
+
+    return [
+        waterlineEntity1,
+        waterlineEntity2,
+    ];
+}
