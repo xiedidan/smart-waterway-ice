@@ -6,6 +6,8 @@ export const ION_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMTJhM
 export const BING_MAPS_KEY = 'ApI-oj--b2GLuTrhgfWkF9AioGopwJO9iq5lB-VEmc9okO9b0tjkOZX0a79YBHuv';
 export const MAP_BOX_TOKEN = 'pk.eyJ1IjoieGllZGlkYW4iLCJhIjoiY2pnd2Q1a21yMDR4ODJ3bnc5ajBjMWhncSJ9.nlz7YNgxxaHEhzR947lMpw';
 
+export const EVOLUTION_BASE_URL = `${PUBLIC_BASE_URL}/images/evolution`;
+
 export const ENTITY_REFRESH_INTERVAL = 1000;
 
 export const BILLBOARD_WIDTH = 64;
