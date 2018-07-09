@@ -7,8 +7,8 @@ import * as CONSTS from '../../../../consts';
 
 const slides = [
   {
-    url: `${CONSTS.EVOLUTION_BASE_URL}/2005.png`,
-    text: '2005',
+    url: `${CONSTS.EVOLUTION_BASE_URL}/2013.png`,
+    text: '2013',
   },
   {
     url: `${CONSTS.EVOLUTION_BASE_URL}/2014.png`,
