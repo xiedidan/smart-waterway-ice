@@ -52,6 +52,7 @@ export default class Map extends Component {
             showProjectEntity: true,
             projectEntity: null,
             selectedTypes: [0, 1, 2, 3, 4, 5],
+            waterlineFlag: true,
         };
     }
 
@@ -144,7 +145,11 @@ export default class Map extends Component {
 
             // waterline entity handler
             if (existedEntity.id.indexOf('waterline') !== -1) {
-                return false;
+                if (this.state.waterlineFlag === true) {
+                    return false;
+                } else {
+                    return true;
+                }
             }
             
             // normal entities
@@ -276,6 +281,11 @@ export default class Map extends Component {
         }
     }
 
+    async selectHandler6(selected) {
+        // update state
+        this.state.waterlineFlag = selected
+    }
+
     async projectSelectHandler(value) {
         this.setState({
             selectedProject: value
@@ -357,6 +367,14 @@ export default class Map extends Component {
                                 defaultSelected={true}
                             >
                                 信息
+                            </Tag>
+                            <Tag
+                                shape="selectable"
+                                type="normal"
+                                onSelect={::this.selectHandler6}
+                                defaultSelected={true}
+                            >
+                                航线
                             </Tag>
                             <Tag
                                 shape="selectable"
