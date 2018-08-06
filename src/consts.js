@@ -1,5 +1,5 @@
 export const BACKEND_BASE_URL = 'http://piecent.com:5050';
-export const PUBLIC_BASE_URL = 'http://piecent.com:8000';
+export const PUBLIC_BASE_URL = 'http://piecent.com';
 export const API_VERSION = 'v1.0';
 
 export const ION_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMTJhMjVkMC02OGQ3LTQ4YTktYTQ5Mi03MjE3YTQ0ZDY2YjEiLCJpZCI6NzM3LCJpYXQiOjE1MjU3MDQyMDB9.Q4_Y7b56tB2B3DobcvFSlMhymZuTWrFOHu-v-z6eBs4';
