@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Grid, Tag, Select } from '@icedesign/base';
 import DataBinder from '@icedesign/data-binder';
 import Cesium from 'cesium/Cesium';
-import { loadProjectEntitesByType, getProjectEntity } from '../../../../services/entity.service';
+import { loadProjectEntitesByType, getProjectEntity, getWaterlineEntities } from '../../../../services/entity.service';
 import './Map.scss';
 import * as CONSTS from '../../../../consts';
 
@@ -51,7 +51,8 @@ export default class Map extends Component {
             selectedProject: '',
             showProjectEntity: true,
             projectEntity: null,
-            selectedTypes: [0, 1, 2, 3, 4],
+            selectedTypes: [0, 1, 2, 3, 4, 5],
+            waterlineFlag: true,
         };
     }
 
@@ -94,6 +95,8 @@ export default class Map extends Component {
 
         // start refreshing entities
         this.entityInterval = setInterval(async () => {
+            const waterlineEntities = getWaterlineEntities();
+
             const entities = await loadProjectEntitesByType(
                 this.state.selectedProject,
                 this.state.selectedTypes.map((type) => {
@@ -101,10 +104,14 @@ export default class Map extends Component {
                 }),
             );
 
+            entities.push(waterlineEntities[0]);
+            entities.push(waterlineEntities[1]);
+
             if (
                 entities !== undefined &&
                 entities != null
             ) {
+                console.log('entities', entities);
                 this.showEntities(entities);
             }
         }, CONSTS.ENTITY_REFRESH_INTERVAL);
@@ -125,15 +132,27 @@ export default class Map extends Component {
             viewerEntity.label = entity.label;
             viewerEntity.billboard = entity.billboard;
             viewerEntity.description = entity.description;
+            viewerEntity.polyline = entity.polyline;
         });
 
         // remove useless entity
         console.log('this.viewer.entities.values', this.viewer.entities.values)
         const unusedEntities = this.viewer.entities.values.filter((existedEntity) => {
+            // project entity handler
             if (existedEntity.id === this.state.selectedProject) {
                 return false;
             }
+
+            // waterline entity handler
+            if (existedEntity.id.indexOf('waterline') !== -1) {
+                if (this.state.waterlineFlag === true) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
             
+            // normal entities
             const unused = entities.reduce((prev, curr) => {
                 if (curr.id === existedEntity.id) {
                     return false;
@@ -253,6 +272,20 @@ export default class Map extends Component {
         }
     }
 
+    async selectHandler5(selected) {
+        // update state
+        if (selected) {
+            this.state.selectedTypes = _.union(this.state.selectedTypes, [5]);
+        } else {
+             _.pull(this.state.selectedTypes, 5);
+        }
+    }
+
+    async selectHandler6(selected) {
+        // update state
+        this.state.waterlineFlag = selected
+    }
+
     async projectSelectHandler(value) {
         this.setState({
             selectedProject: value
@@ -326,6 +359,22 @@ export default class Map extends Component {
                                 defaultSelected={true}
                             >
                                 文档
+                            </Tag>
+                            <Tag
+                                shape="selectable"
+                                type="normal"
+                                onSelect={::this.selectHandler5}
+                                defaultSelected={true}
+                            >
+                                信息
+                            </Tag>
+                            <Tag
+                                shape="selectable"
+                                type="normal"
+                                onSelect={::this.selectHandler6}
+                                defaultSelected={true}
+                            >
+                                航线
                             </Tag>
                             <Tag
                                 shape="selectable"

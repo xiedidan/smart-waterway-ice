@@ -3,22 +3,20 @@ import { observer } from 'mobx-react';
 import IceContainer from '@icedesign/container';
 import { Slider } from '@icedesign/base';
 
+import * as CONSTS from '../../../../consts';
+
 const slides = [
   {
-    url: 'https://img.alicdn.com/tps/TB1bewbNVXXXXc5XXXXXXXXXXXX-1000-300.png',
-    text: '手机淘宝皮肤征集',
+    url: `${CONSTS.EVOLUTION_BASE_URL}/2013.png`,
+    text: '2013',
   },
   {
-    url: 'https://img.alicdn.com/tps/TB1xuUcNVXXXXcRXXXXXXXXXXXX-1000-300.jpg',
-    text: '阿里公益T恤设计大概',
+    url: `${CONSTS.EVOLUTION_BASE_URL}/2014.png`,
+    text: '2014',
   },
   {
-    url: 'https://img.alicdn.com/tps/TB1ikP.NVXXXXaYXpXXXXXXXXXX-1000-300.jpg',
-    text: '淘公仔设计大赛',
-  },
-  {
-    url: 'https://img.alicdn.com/tps/TB1s1_JNVXXXXbhaXXXXXXXXXXX-1000-300.jpg',
-    text: '磁带播放器换肤设计大赛',
+    url: `${CONSTS.EVOLUTION_BASE_URL}/2015.png`,
+    text: '2015',
   },
 ];
 

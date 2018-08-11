@@ -14,19 +14,19 @@ export default class LiteTable extends Component {
     this.state = {
       tableData: [
         {
-          project: '工程A',
+          project: '长江干线水富-宜宾段',
           location: '104.40007209777832, 28.643773290949795',
-          time: '2014.06.10',
+          time: '2005.06.10',
         },
         {
-          project: '工程A',
+          project: '长江干线水富-宜宾段',
           location: '104.40007209777832, 28.643773290949795',
-          time: '2016.04.26',
+          time: '2014.04.26',
         },
         {
-          project: '工程A',
+          project: '长江干线水富-宜宾段',
           location: '104.40007209777832, 28.643773290949795',
-          time: '2017.11.25',
+          time: '2015.11.25',
         },
       ],
     };
