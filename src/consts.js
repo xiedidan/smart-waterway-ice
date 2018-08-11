@@ -1,5 +1,5 @@
 export const BACKEND_BASE_URL = 'http://piecent.com:5050';
-export const PUBLIC_BASE_URL = 'http://piecent.com:8000';
+export const PUBLIC_BASE_URL = 'http://piecent.com';
 export const API_VERSION = 'v1.0';
 
 export const ION_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMTJhMjVkMC02OGQ3LTQ4YTktYTQ5Mi03MjE3YTQ0ZDY2YjEiLCJpZCI6NzM3LCJpYXQiOjE1MjU3MDQyMDB9.Q4_Y7b56tB2B3DobcvFSlMhymZuTWrFOHu-v-z6eBs4';
@@ -46,3 +46,7 @@ export const WEATHER = {
 export const WEATHER_ICON_SET = 1;
 
 export const LABEL_FLOAT_DIGIT_COUNT = 1;
+
+export const DOCUMENT_DESIGN_URL = `${PUBLIC_BASE_URL}/documents/design`;
+export const DOCUMENT_SNAPSHOT_URL = `${PUBLIC_BASE_URL}/documents/snapshot`;
+export const DOCUMENT_ICON_BASE_URL = `${PUBLIC_BASE_URL}/images/icons/document`;
