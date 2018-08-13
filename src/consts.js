@@ -53,6 +53,8 @@ export const DOCUMENT_DESIGN_URL = `${PUBLIC_BASE_URL}/documents/design`;
 export const DOCUMENT_SNAPSHOT_URL = `${PUBLIC_BASE_URL}/documents/snapshot`;
 export const DOCUMENT_ICON_BASE_URL = `${PUBLIC_BASE_URL}/images/icons/document`;
 
+export const WATERLINE_PROJECT = '5af2ea9f794ace068b50a55a';
+
 export const WATERLINE_1 = {
     "type": "LineString",
     "coordinates": [

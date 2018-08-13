@@ -87,70 +87,74 @@ export function getBillboardBody(record) {
 
     let description;
 
-    let designArr;
-    let ext;
-    let designs;
-    let snapshots;
+    try {
+        let designArr;
+        let ext;
+        let designs;
+        let snapshots;
 
-    switch (record.entity.type) {
-        case CONSTS.ENTITY_TYPES.MARKER:
-        label.text = `${record.data.error === false ? '正常' : '异常'}/${record.data.shift === true ? '偏移' : '原位'}`;
-        billboard.image = CONSTS.BILLBOARD_ICONS.MARKER;
-        description = record.entity.desc;
-        break;
+        switch (record.entity.type) {
+            case CONSTS.ENTITY_TYPES.MARKER:
+            label.text = `${record.data.error === false ? '正常' : '异常'}/${record.data.shift === true ? '偏移' : '原位'}`;
+            billboard.image = CONSTS.BILLBOARD_ICONS.MARKER;
+            description = record.entity.desc;
+            break;
 
-        case CONSTS.ENTITY_TYPES.HYDROLOGY:
-        label.text = `${record.data.level}米\n${record.data.rate.toFixed(CONSTS.LABEL_FLOAT_DIGIT_COUNT)}立方米/秒`;
-        billboard.image = CONSTS.BILLBOARD_ICONS.HYDROLOGY;
-        description = record.entity.desc;
-        break;
+            case CONSTS.ENTITY_TYPES.HYDROLOGY:
+            label.text = `${record.data.level}米\n${record.data.rate.toFixed(CONSTS.LABEL_FLOAT_DIGIT_COUNT)}立方米/秒`;
+            billboard.image = CONSTS.BILLBOARD_ICONS.HYDROLOGY;
+            description = record.entity.desc;
+            break;
 
-        case CONSTS.ENTITY_TYPES.WEATHER:
-        label.text = `${record.data.temperature.toFixed(CONSTS.LABEL_FLOAT_DIGIT_COUNT)}度/${record.data.humidity.toFixed(CONSTS.LABEL_FLOAT_DIGIT_COUNT)}%`;
-        billboard.image = getWeatherIcon1(record);
-        description = record.entity.desc;
-        break;
+            case CONSTS.ENTITY_TYPES.WEATHER:
+            label.text = `${record.data.temperature.toFixed(CONSTS.LABEL_FLOAT_DIGIT_COUNT)}度/${record.data.humidity.toFixed(CONSTS.LABEL_FLOAT_DIGIT_COUNT)}%`;
+            billboard.image = getWeatherIcon1(record);
+            description = record.entity.desc;
+            break;
 
-        case CONSTS.ENTITY_TYPES.SHIP:
-        label.text = `${record.data.speed.toFixed(CONSTS.LABEL_FLOAT_DIGIT_COUNT)}米/秒`;
-        billboard.image = CONSTS.BILLBOARD_ICONS.SHIP;
-        description = record.entity.desc;
-        break;
+            case CONSTS.ENTITY_TYPES.SHIP:
+            label.text = `${record.data.speed.toFixed(CONSTS.LABEL_FLOAT_DIGIT_COUNT)}米/秒`;
+            billboard.image = CONSTS.BILLBOARD_ICONS.SHIP;
+            description = record.entity.desc;
+            break;
 
-        case CONSTS.ENTITY_TYPES.DOCUMENT:
-        label.text = record.entity.name;
+            case CONSTS.ENTITY_TYPES.DOCUMENT:
+            label.text = record.entity.name;
 
-        designArr = record.data[0].designs[0].split('.');
-        ext = designArr[designArr.length - 1];
-        ext = ext.toLowerCase();
-        billboard.image = `${CONSTS.DOCUMENT_ICON_BASE_URL}/${ext}.png`;
+            designArr = record.data[0].designs[0].split('.');
+            ext = designArr[designArr.length - 1];
+            ext = ext.toLowerCase();
+            billboard.image = `${CONSTS.DOCUMENT_ICON_BASE_URL}/${ext}.png`;
 
-        description = `${record.entity.desc}<br />`;
-        record.data.map((curr) => {
-            description = curr.snapshots.reduce((prev, snapshot) => {
-                const desc = `${prev}<a target="_blank" href="${CONSTS.DOCUMENT_SNAPSHOT_URL}/${snapshot}"><img width="100%" style="float:left; margin: 0 1em 1em 0;" src="${CONSTS.DOCUMENT_SNAPSHOT_URL}/${snapshot}" /></a><br />`;
-                return desc;
-            }, description);
-        });
-        record.data.map((curr) => {
-            description = curr.designs.reduce((prev, design) => {
-                const desc = `${prev}<a style="color: WHITE" href="${CONSTS.DOCUMENT_DESIGN_URL}/${design}">${design}</a><br />`;
-                return desc;
-            }, description);
-        });
-        description = `<p style="min-height: 420px">${description}</p>`;
-        break;
+            description = `${record.entity.desc}<br />`;
+            record.data.map((curr) => {
+                description = curr.snapshots.reduce((prev, snapshot) => {
+                    const desc = `${prev}<a target="_blank" href="${CONSTS.DOCUMENT_SNAPSHOT_URL}/${snapshot}"><img width="100%" style="float:left; margin: 0 1em 1em 0;" src="${CONSTS.DOCUMENT_SNAPSHOT_URL}/${snapshot}" /></a><br />`;
+                    return desc;
+                }, description);
+            });
+            record.data.map((curr) => {
+                description = curr.designs.reduce((prev, design) => {
+                    const desc = `${prev}<a style="color: WHITE" href="${CONSTS.DOCUMENT_DESIGN_URL}/${design}">${design}</a><br />`;
+                    return desc;
+                }, description);
+            });
+            description = `<p style="min-height: 420px">${description}</p>`;
+            break;
 
-        case CONSTS.ENTITY_TYPES.INFO:
-        label.text = record.entity.name;
-        billboard.image = CONSTS.BILLBOARD_ICONS.INFO;
-        description = record.entity.desc;
-        break;
+            case CONSTS.ENTITY_TYPES.INFO:
+            label.text = record.entity.name;
+            billboard.image = CONSTS.BILLBOARD_ICONS.INFO;
+            description = record.entity.desc;
+            break;
 
-        default:
-        break;
+            default:
+            break;
+        }
+    } catch (err) {
+        console.log(err.stack, record);
     }
-
+    
     return {
         billboard,
         label,

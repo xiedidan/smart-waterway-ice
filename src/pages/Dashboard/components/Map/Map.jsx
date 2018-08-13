@@ -144,8 +144,13 @@ export default class Map extends Component {
             }
 
             // waterline entity handler
-            if (existedEntity.id.indexOf('waterline') !== -1) {
-                if (this.state.waterlineFlag === true) {
+            if (
+                existedEntity.id.indexOf('waterline') !== -1
+            ) {
+                if (
+                    this.state.waterlineFlag === true &&
+                    this.state.selectedProject === CONSTS.WATERLINE_PROJECT
+                ) {
                     return false;
                 } else {
                     return true;
