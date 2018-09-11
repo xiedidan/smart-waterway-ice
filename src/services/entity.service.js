@@ -121,24 +121,22 @@ export function getBillboardBody(record) {
             case CONSTS.ENTITY_TYPES.DOCUMENT:
             label.text = record.entity.name;
 
-            designArr = record.data[0].designs[0].split('.');
+            designArr = record.data.designs[0].split('.');
             ext = designArr[designArr.length - 1];
             ext = ext.toLowerCase();
             billboard.image = `${CONSTS.DOCUMENT_ICON_BASE_URL}/${ext}.png`;
 
             description = `${record.entity.desc}<br />`;
-            record.data.map((curr) => {
-                description = curr.snapshots.reduce((prev, snapshot) => {
-                    const desc = `${prev}<a target="_blank" href="${CONSTS.DOCUMENT_SNAPSHOT_URL}/${snapshot}"><img width="100%" style="float:left; margin: 0 1em 1em 0;" src="${CONSTS.DOCUMENT_SNAPSHOT_URL}/${snapshot}" /></a><br />`;
-                    return desc;
-                }, description);
-            });
-            record.data.map((curr) => {
-                description = curr.designs.reduce((prev, design) => {
-                    const desc = `${prev}<a style="color: WHITE" href="${CONSTS.DOCUMENT_DESIGN_URL}/${design}">${design}</a><br />`;
-                    return desc;
-                }, description);
-            });
+            description = record.data.snapshots.reduce((prev, snapshot) => {
+                const title = snapshot.split('.')[0];
+                const desc = `${prev}<br />${title}<br /><a target="_blank" href="${CONSTS.DOCUMENT_SNAPSHOT_URL}/${snapshot}"><img width="100%" style="float:left; margin: 0 1em 1em 0;" src="${CONSTS.DOCUMENT_SNAPSHOT_URL}/${snapshot}" /></a><br />`;
+                return desc;
+            }, description);
+            description = record.data.designs.reduce((prev, design) => {
+                const desc = `${prev}<a style="color: WHITE" href="${CONSTS.DOCUMENT_DESIGN_URL}/${design}">${design}</a><br />`;
+                return desc;
+            }, description);
+
             description = `<p style="min-height: 420px">${description}</p>`;
             break;
 
