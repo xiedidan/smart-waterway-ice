@@ -52,6 +52,7 @@ const customAsideNavs = [
     icon: 'location',
     children: [
       { text: '标记列表', to: '/entity/list' },
+      { text: '文档列表', to: '/entity/document' },
       { text: '添加标记', to: '/entity/create' },
     ],
   },
