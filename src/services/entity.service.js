@@ -102,7 +102,14 @@ export function getBillboardBody(record) {
 
             case CONSTS.ENTITY_TYPES.HYDROLOGY:
             label.text = `${record.data.level}米\n${record.data.rate.toFixed(CONSTS.LABEL_FLOAT_DIGIT_COUNT)}立方米/秒`;
-            billboard.image = CONSTS.BILLBOARD_ICONS.HYDROLOGY;
+            if ((record.data.level > record.entity.info.level_threshold) || 
+                (record.data.rate > record.entity.info.rate_threshold)) {
+                billboard.image = `${CONSTS.BILLBOARD_ICONS.HYDROLOGY}/warning.png`;
+            }
+            else {
+                billboard.image = `${CONSTS.BILLBOARD_ICONS.HYDROLOGY}/normal.png`;
+            }
+            
             description = record.entity.desc;
             break;
 

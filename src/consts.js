@@ -14,7 +14,7 @@ export const BILLBOARD_WIDTH = 64;
 export const BILLBOARD_HEIGHT = 64;
 export const BILLBOARD_ICONS = {
     MARKER: `${PUBLIC_BASE_URL}/images/icons/marker.png`,
-    HYDROLOGY: `${PUBLIC_BASE_URL}/images/icons/hydrology.png`,
+    HYDROLOGY: `${PUBLIC_BASE_URL}/images/icons/hydrology`,
     WEATHER: `${PUBLIC_BASE_URL}/images/icons/weather`,
     SHIP: `${PUBLIC_BASE_URL}/images/icons/ship.png`,
     DOCUMENT: `${PUBLIC_BASE_URL}/images/icons/document`,
